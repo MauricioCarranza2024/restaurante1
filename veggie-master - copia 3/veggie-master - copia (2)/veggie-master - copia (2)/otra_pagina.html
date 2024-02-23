@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <button onclick="window.location.href = 'index.html';">Regresar a la Página Principal</button>
+
+
+              
+                <div class="logo">
+                    <img src="images/THE MOSTER.jpeg" alt="Logo de tu restaurante" style="max-width: 80px; height: 120;">
+                </div>
+                <!--  "THE MOSTER"-->
+                <h2 class="restaurant-title" style="font-size: 50px; font-weight: bold; color: #333333;">THE MOSTER</h2>
+            </div>
+        </div>
+    </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Eventos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: calc(100% - 18px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .event {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+            box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .event p {
+            margin: 0;
+        }
+
+        .event:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calendario de Eventos</h1>
+        <form id="eventForm">
+            <label for="eventName">Nombre del Evento:</label>
+            <input type="text" id="eventName" name="eventName" required>
+            <label for="eventDate">Fecha del Evento:</label>
+            <input type="date" id="eventDate" name="eventDate" required>
+            <button type="submit">Crear Evento</button>
+        </form>
+        <div id="eventList"></div>
+    </div>
+    <script>
+        document.getElementById("eventForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var eventName = document.getElementById("eventName").value;
+            var eventDate = document.getElementById("eventDate").value;
+            var eventListItem = document.createElement("div");
+            eventListItem.className = "event";
+            eventListItem.innerHTML = "<p><strong>Nombre:</strong> " + eventName + "</p><p><strong>Fecha:</strong> " + eventDate + "</p>";
+            document.getElementById("eventList").appendChild(eventListItem);
+            document.getElementById("eventForm").reset();
+        });
+    </script>
+</body>
+</html>

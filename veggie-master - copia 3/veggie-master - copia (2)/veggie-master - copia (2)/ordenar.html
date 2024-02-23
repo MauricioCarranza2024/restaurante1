@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedido</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+    }
+    .container {
+        width: 50%;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+    form {
+        margin-top: 20px;
+    }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+    }
+    select, input[type="number"], input[type="text"], button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    p {
+        text-align: center;
+        color: #555;
+        display: none;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Ordenar aquí</h2>
+    <form id="orderForm" action="procesar_pedido.php" method="post">
+        <label for="categoria">¿Qué quieres ordenar?</label>
+        <select name="categoria" id="categoria" onchange="updateItems()">
+            <option value="postres">Postres</option>
+            <option value="platillos">Platillos</option>
+            <option value="bebidas">Bebidas</option>
+        </select>
+        <label for="item">Elige un artículo:</label>
+        <select name="item" id="item">
+            <!-- Opciones generadas dinámicamente -->
+        </select>
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" name="cantidad" id="cantidad" min="1" value="1" oninput="calculateTotal()">
+        <label for="total">Total:</label>
+        <input type="text" name="total" id="total" readonly>
+        <a href="index.html">ordenar e ir a llenar tu recibo</a>
+    </form>
+    <p id="confirmationMessage">Tu orden está siendo elaborada con éxito.</p>
+</div>
+
+<script>
+    var items = {
+        postres: [
+            { name: "Helado de coco", price: 6 },
+            { name: "Tres Leches", price: 8 },
+            { name: "Milhojas", price: 10 },
+            { name: "Crepes", price: 7 },
+            { name: "Quesadillas", price: 1 },
+            { name: "Flan", price: 2.25 },
+            { name: "Brownie", price: 2.50 },
+            { name: "Creme Brule", price: 2.25 },
+            { name: "Blinis", price: 2 },
+            { name: "Pastel de manzana", price: 3 },
+        ],
+        platillos: [
+            { name: "Lomito de res", price: 8 },
+            { name: "Churrasco salvadoreño", price: 8.25 },
+            { name: "Asado poblado", price: 10 },
+            { name: "Fajitas de carne", price: 14 },
+            { name: "Lomito de cerdo", price: 14 },
+            { name: "Costilla de cerdo", price: 10 },
+            { name: "Parrillada especial", price: 21 },
+            { name: "Pechuga", price: 7.50 },
+            { name: "Gallina india", price: 8 },
+        ],
+        bebidas: [
+            { name: "Café", price: 1 },
+            { name: "Café con cremora", price: 1.25 },
+            { name: "Chocolate", price: 1.25 },
+            { name: "Té", price: 1 },
+            { name: "Refrecos naturales", price: 1.25 },
+            { name: "Horchata", price: 1.75 },
+            { name: "Limonada", price: 2 },
+            { name: "Licuados", price: 3.50 },
+            { name: "Jugos naturales", price: 2.25 },
+            { name: "Sodas", price: 1 },
+            { name: "Té helado", price: 1.75 },
+            { name: "Agua", price: 1 },
+        ]
+    };
+
+    function updateItems() {
+        var category = document.getElementById("categoria").value;
+        var itemList = items[category];
+
+        var itemSelect = document.getElementById("item");
+        itemSelect.innerHTML = "";
+
+        itemList.forEach(function(item) {
+            var option = document.createElement("option");
+            option.value = item.price;
+            option.textContent = item.name + " - $" + item.price;
+            itemSelect.appendChild(option);
+        });
+
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        var itemPrice = parseFloat(document.getElementById("item").value);
+        var quantity = parseInt(document.getElementById("cantidad").value);
+        var total = itemPrice * quantity;
+        document.getElementById("total").value = "$" + total.toFixed(2);
+    }
+
+    document.getElementById("orderForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evitar que el formulario se envíe normalmente
+
+        // Mostrar el mensaje de confirmación
+        document.getElementById("confirmationMessage").style.display = "block";
+
+        // Restaurar el formulario (opcional)
+        this.reset();
+    });
+
+    // Inicializar la lista de artículos
+    updateItems();
+</script>
+</body>
+</html>
+
